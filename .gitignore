@@ -1,0 +1,23 @@
+target
+.idea
+*.log
+out
+# Maven #
+target/
+
+# IDEA #
+.idea/
+*.iml
+
+# Eclipse #
+.settings/
+.metadata/
+.classpath
+.project
+Servers/
+log/
+logs/
+bin/
+
+# Mac #
+.DS_Store
