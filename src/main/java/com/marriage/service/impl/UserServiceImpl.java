@@ -1,5 +1,7 @@
 package com.marriage.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.marriage.config.HttpsClientRequestFactory;
@@ -10,6 +12,7 @@ import com.marriage.model.marriage.MarriageUser;
 import com.marriage.model.marriage.MarriageUserAdd;
 import com.marriage.model.marriage.MarriageUserEdit;
 import com.marriage.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +28,7 @@ import java.util.Map;
  * @author hu
  */
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -39,10 +44,17 @@ public class UserServiceImpl implements UserService {
 
         String url="https://api.weixin.qq.com/sns/jscode2session" +
                 "?appid="+appId+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
-        ResponseEntity<Map> response =new RestTemplate(new HttpsClientRequestFactory()).getForEntity(url, Map.class);
+        ResponseEntity<String> response =new RestTemplate(new HttpsClientRequestFactory()).getForEntity(url, String.class);
         if(response.getStatusCode().is2xxSuccessful()){
-            Map<String,Object> userMap=response.getBody();
-            if(userMap!=null){
+            String user=response.getBody();
+            if(user!=null&&!"".equals(user)){
+                Map<String,Object> userMap= new HashMap<>();
+                try {
+                    userMap = new ObjectMapper().readValue(user, Map.class);
+                    log.info(userMap+"");
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
                 return userMap.get("openid")+"";
             }
         }
