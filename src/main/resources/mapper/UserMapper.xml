@@ -6,7 +6,7 @@
         <!--@Table marriage_user-->
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
-        <result column="user_phone" jdbcType="VARCHAR" property="userPhone"/>
+        <result column="wechat_id" jdbcType="VARCHAR" property="weChatId"/>
         <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="native_place" jdbcType="VARCHAR" property="nativePlace"/>
         <result column="current_location" jdbcType="VARCHAR" property="currentLocation"/>
@@ -27,7 +27,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        user_id, user_name, user_phone, nick_name, native_place, current_location, gender,
+        user_id, user_name, wechat_id, nick_name, native_place, current_location, gender,
         date_format(birth_date,'%Y-%m-%d') as birth_date, blood_type, height, weight, education, house, job_info,
         interest, marriage_status,
         family, target, declaration, user_status
@@ -54,8 +54,8 @@
         <if test="userName != null and userName != ''">
             and user_name like concat('%', concat(#{userName,jdbcType=VARCHAR}, '%'))
         </if>
-        <if test="userPhone != null and userPhone != ''">
-            and user_phone = #{userPhone,jdbcType=VARCHAR}
+        <if test="weChatId != null and weChatId != ''">
+            and wechat_id = #{weChatId,jdbcType=VARCHAR}
         </if>
         <if test="nickName != null and nickName != ''">
             and nick_name like concat('%', concat(#{nickName,jdbcType=VARCHAR}, '%'))
@@ -115,14 +115,14 @@
     <insert id="insert" keyColumn="user_id" keyProperty="userId"
             parameterType="com.marriage.model.marriage.MarriageUser" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into marriage_user (user_name, user_phone, nick_name,
+        insert into marriage_user (user_name, wechat_id, nick_name,
                                    native_place, current_location, gender,
                                    birth_date, blood_type, height,
                                    weight, education, house,
                                    job_info, interest, marriage_status,
                                    family, target,
                                    declaration, user_status)
-        values (#{userName,jdbcType=VARCHAR}, #{userPhone,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
+        values (#{userName,jdbcType=VARCHAR}, #{weChatId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
                 #{nativePlace,jdbcType=VARCHAR}, #{currentLocation,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
                 #{birthDate,jdbcType=TIMESTAMP}, #{bloodType,jdbcType=TINYINT}, #{height,jdbcType=TINYINT},
                 #{weight,jdbcType=TINYINT}, #{education,jdbcType=TINYINT}, #{house,jdbcType=TINYINT},
@@ -149,13 +149,13 @@
     <select id="selectUserStatus" resultType="java.lang.Integer">
         select user_status
         from marriage_user
-        where user_phone = #{phone}
+        where wechat_id = #{phone}
     </select>
     <update id="updateByPrimaryKey" parameterType="com.marriage.model.marriage.MarriageUser">
         <!--@mbg.generated-->
         update marriage_user
         set user_name        = #{userName,jdbcType=VARCHAR},
-            user_phone       = #{userPhone,jdbcType=VARCHAR},
+            wechat_id       = #{weChatId,jdbcType=VARCHAR},
             nick_name        = #{nickName,jdbcType=VARCHAR},
             native_place     = #{nativePlace,jdbcType=VARCHAR},
             current_location = #{currentLocation,jdbcType=VARCHAR},

@@ -27,8 +27,8 @@ public class MarriageUserAdd {
     /**
      * 手机
      */
-    @NotBlank(message = "手机号不能为空")
-    private String userPhone;
+    @NotBlank(message = "微信id不能为空")
+    private String weChatId;
 
     /**
      * 籍贯

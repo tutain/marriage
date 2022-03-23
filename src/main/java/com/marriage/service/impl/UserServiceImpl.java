@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String queryWechatUserInfo(String code) {
-        String url="https://api.weixin.qq.com/sns/jscode2session" +
+        String url="/sns/jscode2session" +
                 "?appid="+appId+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
         ResponseEntity<Map> response =new RestTemplate().getForEntity(url, Map.class);
         if(response.getStatusCode().is2xxSuccessful()){

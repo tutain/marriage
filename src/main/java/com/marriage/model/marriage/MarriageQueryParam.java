@@ -26,7 +26,7 @@ public class MarriageQueryParam {
     /**
      * 手机
      */
-    private String userPhone;
+    private String weChatId;
 
     /**
      * 籍贯
