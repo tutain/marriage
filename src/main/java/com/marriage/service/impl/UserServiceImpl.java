@@ -2,6 +2,7 @@ package com.marriage.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.marriage.config.HttpsClientRequestFactory;
 import com.marriage.dao.UserMapper;
 import com.marriage.model.User;
 import com.marriage.model.marriage.MarriageQueryParam;
@@ -15,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -36,9 +36,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String queryWechatUserInfo(String code) {
+
         String url="/sns/jscode2session" +
                 "?appid="+appId+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
-        ResponseEntity<Map> response =new RestTemplate().getForEntity(url, Map.class);
+        ResponseEntity<Map> response =new RestTemplate(new HttpsClientRequestFactory()).getForEntity(url, Map.class);
         if(response.getStatusCode().is2xxSuccessful()){
             Map<String,Object> userMap=response.getBody();
             if(userMap!=null){
@@ -47,6 +48,9 @@ public class UserServiceImpl implements UserService {
         }
         return "";
     }
+
+
+
 
     @Override
     public User checkUser(String phone) {
