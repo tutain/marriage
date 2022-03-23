@@ -26,6 +26,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("queryWechatUserInfo")
+    public ResponseMsg<?> queryWechatUserInfo(String code){
+        return getSuccessMsg("查询成功",userService.queryWechatUserInfo(code));
+    }
     @GetMapping("checkUser")
     public ResponseMsg<?> checkUser(String phone){
         if(!StringUtils.hasLength(phone)){
@@ -67,13 +71,7 @@ public class UserController {
         }
         return getSuccessMsg("删除成功",userService.deleteMarriage(id));
     }
-    @PostMapping("uploadImage")
-    public ResponseMsg<?> uploadImage(MultipartFile imageFile){
-        if (imageFile==null) {
-            return getFailMsg(ResponseStatus.paramError, "上传文件不能为空", null);
-        }
-        return getSuccessMsg("上传成功",userService.uploadFile(imageFile));
-    }
+
 
     @PutMapping("changeUserStatus")
     public ResponseMsg<?> uploadImage(Integer id,Integer userStatus){

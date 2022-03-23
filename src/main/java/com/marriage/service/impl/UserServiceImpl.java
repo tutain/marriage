@@ -10,11 +10,15 @@ import com.marriage.model.marriage.MarriageUserAdd;
 import com.marriage.model.marriage.MarriageUserEdit;
 import com.marriage.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hu
@@ -24,7 +28,25 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Value("${appid}")
+    private String appId;
+    @Value("${secret}")
+    private String secret;
 
+
+    @Override
+    public String queryWechatUserInfo(String code) {
+        String url="https://api.weixin.qq.com/sns/jscode2session" +
+                "?appid="+appId+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
+        ResponseEntity<Map> response =new RestTemplate().getForEntity(url, Map.class);
+        if(response.getStatusCode().is2xxSuccessful()){
+            Map<String,Object> userMap=response.getBody();
+            if(userMap!=null){
+                return userMap.get("openid")+"";
+            }
+        }
+        return "";
+    }
 
     @Override
     public User checkUser(String phone) {
@@ -56,7 +78,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public MarriageUser queryMarriageDetail(int id) {
         MarriageUser user=userMapper.selectByPrimaryKey(id);
-        //todo 实现图片展示
         List<String> images=userMapper.selectUserImage(id);
         user.setImageUrlList(images);
         return user;
@@ -87,11 +108,6 @@ public class UserServiceImpl implements UserService {
         return id;
     }
 
-    @Override
-    public String uploadFile(MultipartFile file) {
-        //todo 上传文件接口，微信小程序api
-        return "";
-    }
 
     @Override
     public void updateUserStatus(int id, int userStatus) {

@@ -10,5 +10,8 @@ spring:
     password: ${MySQL_PASSWORD}
 
 
+appid: ${APP_ID}
+secret: ${APP_SECRET}
+
 mybatis:
   mapper-locations: classpath*:mapper/*Mapper.xml

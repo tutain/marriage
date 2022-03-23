@@ -13,6 +13,12 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface UserService {
     /**
+     * 查询用户openid
+     * @param code
+     * @return
+     */
+    String queryWechatUserInfo(String code);
+    /**
      * 判断用户类型
      * @param phone
      * @return
@@ -54,11 +60,7 @@ public interface UserService {
      */
     int deleteMarriage(int id);
 
-    /**
-     * 上传文件
-     * @param file
-     */
-    String uploadFile(MultipartFile file);
+
 
     /**
      * 变更用户状态
