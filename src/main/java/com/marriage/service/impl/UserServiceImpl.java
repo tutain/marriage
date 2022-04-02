@@ -65,12 +65,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User checkUser(String phone) {
-        Integer count=userMapper.selectAdmin(phone);
+    public User checkUser(String weChatId) {
+        Integer count=userMapper.selectAdmin(weChatId);
         if(count!=null&&count>0){
             return User.admin;
         }
-        Integer userStatus=userMapper.selectUserStatus(phone);
+        Integer userStatus=userMapper.selectUserStatus(weChatId);
         if(userStatus==null){
             return User.unregistered;
         }
@@ -126,6 +126,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void updateUserStatus(int id, int userStatus) {
         userMapper.updateUserStatus(userStatus,id);
     }

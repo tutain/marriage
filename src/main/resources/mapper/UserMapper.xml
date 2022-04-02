@@ -55,7 +55,7 @@
             and user_name like concat('%', concat(#{userName,jdbcType=VARCHAR}, '%'))
         </if>
         <if test="weChatId != null and weChatId != ''">
-            and wechat_id = #{weChatId,jdbcType=VARCHAR}
+            and wechat_id != #{weChatId,jdbcType=VARCHAR}
         </if>
         <if test="nickName != null and nickName != ''">
             and nick_name like concat('%', concat(#{nickName,jdbcType=VARCHAR}, '%'))
@@ -142,14 +142,14 @@
     <select id="selectAdmin" resultType="java.lang.Integer">
         select count(1)
         from sys_manage
-        where manage_phone = #{phone}
+        where manage_wx_id = #{weChatId}
           and is_valid = 0;
     </select>
 
     <select id="selectUserStatus" resultType="java.lang.Integer">
         select user_status
         from marriage_user
-        where wechat_id = #{phone}
+        where wechat_id = #{weChatId}
     </select>
     <update id="updateByPrimaryKey" parameterType="com.marriage.model.marriage.MarriageUser">
         <!--@mbg.generated-->

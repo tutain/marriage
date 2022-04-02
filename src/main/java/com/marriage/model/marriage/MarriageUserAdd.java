@@ -25,7 +25,7 @@ public class MarriageUserAdd {
     @NotBlank(message = "昵称不能为空")
     private String nickName;
     /**
-     * 手机
+     * 微信id
      */
     @NotBlank(message = "微信id不能为空")
     private String weChatId;
@@ -119,7 +119,7 @@ public class MarriageUserAdd {
      */
     @NotBlank(message = "安全宣言不能为空")
     private String declaration;
-    @NotBlank(message = "照片不能为空")
+    @NotNull(message = "照片不能为空")
     private List<String> imageUrlList;
 
 }

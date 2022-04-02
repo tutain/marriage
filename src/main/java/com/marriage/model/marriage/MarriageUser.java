@@ -1,9 +1,8 @@
 package com.marriage.model.marriage;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author hu
@@ -25,7 +24,7 @@ public class MarriageUser {
      */
     private String nickName;
     /**
-     * 手机
+     * 微信id
      */
     private String weChatId;
 
@@ -47,7 +46,7 @@ public class MarriageUser {
     /**
      * 出生日期,根据出生日期计算属相和星座
      */
-    private LocalDateTime birthDate;
+    private String birthDate;
 
     /**
      * 0:A,1:B,2:O,3:AB,4:其他

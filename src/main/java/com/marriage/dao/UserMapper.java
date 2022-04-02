@@ -18,18 +18,18 @@ public interface UserMapper {
     /**
      * 查询时候为管理员
      *
-     * @param phone
+     * @param weChatId
      * @return
      */
-    Integer selectAdmin(String phone);
+    Integer selectAdmin(String weChatId);
 
     /**
      * 查询用户状态
      *
-     * @param phone
+     * @param weChatId
      * @return
      */
-    Integer selectUserStatus(String phone);
+    Integer selectUserStatus(String weChatId);
 
     /**
      * 根据id删除用户

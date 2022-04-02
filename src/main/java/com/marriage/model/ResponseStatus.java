@@ -13,7 +13,7 @@ public enum ResponseStatus {
      * 接口响应状态
      */
     success("00","请求成功"),
-    phoneError("01","获取手机号码失败"),
+    weChatIdError("01","获取微信id失败"),
     paramError("02","入参校验失败"),
     systemError("99","系统错误，请联系管理员");
 

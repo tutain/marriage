@@ -20,10 +20,10 @@ public interface UserService {
     String queryWechatUserInfo(String code);
     /**
      * 判断用户类型
-     * @param phone
+     * @param weChatId
      * @return
      */
-    User checkUser(String phone);
+    User checkUser(String weChatId);
 
     /**
      * 分页查询用户信息

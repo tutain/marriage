@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
@@ -31,11 +30,11 @@ public class UserController {
         return getSuccessMsg("查询成功",userService.queryWechatUserInfo(code));
     }
     @GetMapping("checkUser")
-    public ResponseMsg<?> checkUser(String phone){
-        if(!StringUtils.hasLength(phone)){
-            return getFailMsg(ResponseStatus.phoneError,"用户号码为空",null);
+    public ResponseMsg<?> checkUser(String weChatId){
+        if(!StringUtils.hasLength(weChatId)){
+            return getFailMsg(ResponseStatus.weChatIdError,"用户id为空",null);
         }
-        return getSuccessMsg("查询成功",userService.checkUser(phone).getCode());
+        return getSuccessMsg("查询成功",userService.checkUser(weChatId).getCode());
     }
 
     @GetMapping("queryUser")

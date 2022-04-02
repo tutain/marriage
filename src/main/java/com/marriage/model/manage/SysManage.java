@@ -18,9 +18,9 @@ public class SysManage {
     private String manageName;
 
     /**
-     * 管理员手机号码认证用
+     * 管理员微信id认证用
      */
-    private String managePhone;
+    private String manageWxId;
 
     /**
      * 0有效,1无效

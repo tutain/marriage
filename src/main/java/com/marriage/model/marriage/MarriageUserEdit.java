@@ -26,7 +26,7 @@ public class MarriageUserEdit {
     @NotBlank(message = "昵称不能为空")
     private String nickName;
     /**
-     * 手机
+     * 微信id
      */
     @NotBlank(message = "微信id不能为空")
     private String weChatId;
