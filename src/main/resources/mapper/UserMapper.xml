@@ -25,6 +25,10 @@
         <result column="declaration" jdbcType="VARCHAR" property="declaration"/>
         <result column="user_status" jdbcType="TINYINT" property="userStatus"/>
     </resultMap>
+    <resultMap id="image" type="com.marriage.model.marriage.UserImage">
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="image_path" jdbcType="VARCHAR" property="imagePath"/>
+    </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
         user_id, user_name, wechat_id, nick_name, native_place, current_location, gender,
@@ -39,8 +43,11 @@
         from marriage_user
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
-    <select id="selectUserImage" parameterType="java.lang.Integer" resultType="java.lang.String">
-        select  image_path from user_image where user_id=#{id,jdbcType=INTEGER}
+    <select id="selectUserImage"  resultMap="image">
+        select  user_id,image_path from user_image where user_id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id,jdbcType=INTEGER}
+        </foreach>
     </select>
     <select id="selectList" parameterType="com.marriage.model.marriage.MarriageQueryParam" resultMap="BaseResultMap">
         <!--@mbg.generated-->

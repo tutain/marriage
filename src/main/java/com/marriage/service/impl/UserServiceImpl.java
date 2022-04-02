@@ -7,10 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.marriage.config.HttpsClientRequestFactory;
 import com.marriage.dao.UserMapper;
 import com.marriage.model.User;
-import com.marriage.model.marriage.MarriageQueryParam;
-import com.marriage.model.marriage.MarriageUser;
-import com.marriage.model.marriage.MarriageUserAdd;
-import com.marriage.model.marriage.MarriageUserEdit;
+import com.marriage.model.marriage.*;
 import com.marriage.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +15,11 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author hu
@@ -88,14 +85,23 @@ public class UserServiceImpl implements UserService {
     public PageInfo<MarriageUser> queryMarriages(MarriageQueryParam param) {
         PageHelper.startPage(param.getPageNum(),param.getPageSize());
         List<MarriageUser> marriageUserList=userMapper.selectList(param);
+        List<Integer> userIdList=new ArrayList<>();
+        if(!CollectionUtils.isEmpty(marriageUserList)){
+            marriageUserList.forEach(marriageUser -> userIdList.add(marriageUser.getUserId()));
+            List<UserImage> images=userMapper.selectUserImage(userIdList);
+            Map<Integer,List<String>> imageMap=images.stream().collect(Collectors.groupingBy(UserImage::getUserId,
+                    Collectors.mapping(UserImage::getImagePath,Collectors.toList())));
+            marriageUserList.forEach(marriageUser->marriageUser.setImageUrlList(imageMap.get(marriageUser.getUserId())));
+        }
+
         return new PageInfo<>(marriageUserList);
     }
 
     @Override
     public MarriageUser queryMarriageDetail(int id) {
         MarriageUser user=userMapper.selectByPrimaryKey(id);
-        List<String> images=userMapper.selectUserImage(id);
-        user.setImageUrlList(images);
+        List<UserImage> images=userMapper.selectUserImage(Collections.singletonList(id));
+        user.setImageUrlList(images.stream().map(UserImage::getImagePath).collect(Collectors.toList()));
         return user;
     }
 

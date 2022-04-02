@@ -1,9 +1,6 @@
 package com.marriage.dao;
 
-import com.marriage.model.marriage.MarriageQueryParam;
-import com.marriage.model.marriage.MarriageUser;
-import com.marriage.model.marriage.MarriageUserAdd;
-import com.marriage.model.marriage.MarriageUserEdit;
+import com.marriage.model.marriage.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -84,10 +81,10 @@ public interface UserMapper {
     /**
      * 根据用户id查询上传的照片
      *
-     * @param userId
+     * @param userIdList
      * @return
      */
-    List<String> selectUserImage(int userId);
+    List<UserImage> selectUserImage(List<Integer> userIdList);
 
     /**
      * 批量插入图片
