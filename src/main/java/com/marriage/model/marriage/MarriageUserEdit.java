@@ -47,7 +47,7 @@ public class MarriageUserEdit {
      * 0男性,1女性
      */
     @NotNull(message = "性别不能为空")
-    private int gender;
+    private Integer gender;
 
     /**
      * 出生日期,根据出生日期计算属相和星座
@@ -58,8 +58,8 @@ public class MarriageUserEdit {
     /**
      * 0:A,1:B,2:O,3:AB,4:其他
      */
-    @NotBlank(message = "血型不能为空")
-    private int bloodType;
+    @NotNull(message = "血型不能为空")
+    private Integer bloodType;
 
     /**
      * 身高,cm
@@ -77,13 +77,13 @@ public class MarriageUserEdit {
      * 0大专及以下,1本科,2研究生,3博士,4博士后,5教授以上
      */
     @NotNull(message = "学历不能为空")
-    private int education;
+    private Integer education;
 
     /**
      * 0无房，有购房资格;1有房，在还贷款;2有房无贷;3多套房
      */
     @NotNull(message = "资产不能为空")
-    private int house;
+    private Integer house;
 
     /**
      * 工作介绍
@@ -101,7 +101,7 @@ public class MarriageUserEdit {
      * 0未婚;1已婚离异
      */
     @NotNull(message = "婚姻状况不能为空")
-    private int marriageStatus;
+    private Integer marriageStatus;
 
     /**
      * 家庭情况
