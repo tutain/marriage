@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出 -->
+<!-- scan:当此属性设置为true时，配置文件如果发生改变，将会被重新加载，默认值为true -->
+<!-- scanPeriod:设置监测配置文件是否有修改的时间间隔，如果没有给出时间单位，默认单位是毫秒。当scan为true时，此属性生效。默认的时间间隔为1分钟。 -->
+<!-- debug:当此属性设置为true时，将打印出logback内部日志信息，实时查看logback运行状态。默认值为false。 -->
+<configuration scan="true" scanPeriod="10 seconds">
+	<property name="logDirService" value="./hadoop-upload"/>
+	<property name="logDir" value="./hadoop-upload"/>
+	<property name="log_pattern"
+			  value="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%logger{36}] - %msg%n"/>
+	<property name="log_pattern_dependency"
+			  value="[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%logger{36}] - %msg%n"/>
+	<property name="every_file_size" value="30MB"/><!-- 日志切割的最小单位 -->
+	<property name="output_log_level" value="debug"/><!-- 日志输出级别 -->
+	<property name="maxHistory" value="10"/>
+	<property name="totalSizeCap" value="1GB"/>
+	<!-- 控制台输出 -->
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>info</level>
+		</filter>
+		<encoder charset="UTF-8">
+			<pattern>${log_pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 文件输出 -->
+	<appender name="dailyfile"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+
+		<rollingPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${logDir}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<maxFileSize>${every_file_size}</maxFileSize>
+			<maxHistory>${maxHistory}</maxHistory>
+			<totalSizeCap>${totalSizeCap}</totalSizeCap>
+		</rollingPolicy>
+		<!--每页大小设置 -->
+		<!-- <triggeringPolicy -->
+		<!-- class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"> -->
+		<!-- <maxFileSize>${every_file_size}</maxFileSize> -->
+		<!-- </triggeringPolicy> -->
+		<encoder>
+			<pattern>${log_pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<root level="${output_log_level}">
+		<appender-ref ref="console"/>
+		<appender-ref ref="dailyfile"/>
+	</root>	
+
+</configuration>
