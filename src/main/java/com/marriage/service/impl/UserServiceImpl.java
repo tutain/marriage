@@ -7,6 +7,7 @@ import com.github.pagehelper.PageInfo;
 import com.marriage.config.HttpsClientRequestFactory;
 import com.marriage.dao.UserMapper;
 import com.marriage.model.User;
+import com.marriage.model.UserInfo;
 import com.marriage.model.marriage.*;
 import com.marriage.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -62,22 +63,30 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User checkUser(String weChatId) {
+    public UserInfo checkUser(String weChatId) {
         Integer count=userMapper.selectAdmin(weChatId);
+        UserInfo userInfo=new UserInfo();
         if(count!=null&&count>0){
-            return User.admin;
+            userInfo.setUser(User.admin);
+            return userInfo;
         }
-        Integer userStatus=userMapper.selectUserStatus(weChatId);
-        if(userStatus==null){
-            return User.unregistered;
+        MarriageUser user=userMapper.selectUserStatus(weChatId);
+        if(user==null){
+            userInfo.setUser(User.unregistered);
+            return userInfo;
         }
-        if(userStatus==0){
-            return User.unauthorized;
+        if(user.getUserStatus()==0){
+            userInfo.setUser(User.unauthorized);
+            userInfo.setUserId(userInfo.getUserId());
+            return userInfo;
         }
-        if(userStatus>0){
-            return User.normal;
+        if(user.getUserStatus()>0){
+            userInfo.setUser(User.normal);
+            userInfo.setUserId(userInfo.getUserId());
+            return userInfo;
         }
-        return User.unregistered;
+        userInfo.setUser(User.unregistered);
+        return userInfo;
 
     }
 
@@ -108,6 +117,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int addMarriage(MarriageUserAdd marriageUserAdd) {
+         MarriageUser user=userMapper.selectByWeChatId(marriageUserAdd.getWeChatId());
+         if(user!=null){
+             return user.getUserId();
+         }
          userMapper.insert(marriageUserAdd);
          userMapper.insertUserImageBatch(marriageUserAdd.getImageUrlList(),marriageUserAdd.getUserId());
          return marriageUserAdd.getUserId();

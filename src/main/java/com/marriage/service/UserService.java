@@ -2,6 +2,7 @@ package com.marriage.service;
 
 import com.github.pagehelper.PageInfo;
 import com.marriage.model.User;
+import com.marriage.model.UserInfo;
 import com.marriage.model.marriage.MarriageQueryParam;
 import com.marriage.model.marriage.MarriageUser;
 import com.marriage.model.marriage.MarriageUserAdd;
@@ -23,7 +24,7 @@ public interface UserService {
      * @param weChatId
      * @return
      */
-    User checkUser(String weChatId);
+    UserInfo checkUser(String weChatId);
 
     /**
      * 分页查询用户信息

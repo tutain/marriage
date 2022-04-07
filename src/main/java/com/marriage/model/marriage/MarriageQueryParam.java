@@ -104,6 +104,7 @@ public class MarriageQueryParam {
      * 爱情宣言
      */
     private String declaration;
+    private Integer userStatus;
 
     private int pageNum;
     private int pageSize;

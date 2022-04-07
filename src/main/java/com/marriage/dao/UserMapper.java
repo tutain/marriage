@@ -26,7 +26,7 @@ public interface UserMapper {
      * @param weChatId
      * @return
      */
-    Integer selectUserStatus(String weChatId);
+    MarriageUser selectUserStatus(String weChatId);
 
     /**
      * 根据id删除用户
@@ -97,8 +97,16 @@ public interface UserMapper {
 
     /**
      * 根据用户id删除图片
+     *
      * @param userId
      * @return
      */
     int deleteUserImage(int userId);
+
+    /**
+     * 根据wechatId查询用户
+     * @param weChatId
+     * @return
+     */
+    MarriageUser selectByWeChatId(String weChatId);
 }
