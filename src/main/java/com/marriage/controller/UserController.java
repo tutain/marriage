@@ -34,7 +34,7 @@ public class UserController {
         if(!StringUtils.hasLength(weChatId)){
             return getFailMsg(ResponseStatus.weChatIdError,"用户id为空",null);
         }
-        return getSuccessMsg("查询成功",userService.checkUser(weChatId).getCode());
+        return getSuccessMsg("查询成功",userService.checkUser(weChatId));
     }
 
     @GetMapping("queryUser")
