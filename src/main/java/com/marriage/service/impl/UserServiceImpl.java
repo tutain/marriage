@@ -77,12 +77,12 @@ public class UserServiceImpl implements UserService {
         }
         if(user.getUserStatus()==0){
             userInfo.setUser(User.unauthorized);
-            userInfo.setUserId(userInfo.getUserId());
+            userInfo.setUserId(user.getUserId());
             return userInfo;
         }
         if(user.getUserStatus()>0){
             userInfo.setUser(User.normal);
-            userInfo.setUserId(userInfo.getUserId());
+            userInfo.setUserId(user.getUserId());
             return userInfo;
         }
         userInfo.setUser(User.unregistered);

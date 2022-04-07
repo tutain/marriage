@@ -7,6 +7,6 @@ import lombok.Data;
  */
 @Data
 public class UserInfo {
-    private int userId;
+    private Integer userId;
     private User user;
 }
