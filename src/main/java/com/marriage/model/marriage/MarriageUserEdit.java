@@ -120,7 +120,7 @@ public class MarriageUserEdit {
      */
     @NotBlank(message = "安全宣言不能为空")
     private String declaration;
-    @NotBlank(message = "照片不能为空")
+    @NotNull(message = "照片不能为空")
     private List<String> imageUrlList;
 
 }
