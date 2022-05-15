@@ -84,6 +84,11 @@ public class UserController {
         return getSuccessMsg("修改成功",null);
     }
 
+    @GetMapping("countNewUser")
+    public ResponseMsg<?> countNewUser(){
+        return getSuccessMsg("查询成功",userService.countNewUser());
+    }
+
     private String errorBinding(BindingResult errorResult) {
         StringBuilder errorInfo = new StringBuilder();
         for (int i = 0; i < errorResult.getErrorCount(); i++) {

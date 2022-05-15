@@ -2,21 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.marriage.dao.UserMapper">
     <resultMap id="User" type="com.marriage.model.marriage.MarriageUser">
-        <!--@mbg.generated-->
-        <!--@Table marriage_user-->
         <id column="user_id" jdbcType="INTEGER" property="userId"/>
         <result column="user_name" jdbcType="VARCHAR" property="userName"/>
         <result column="wechat_id" jdbcType="VARCHAR" property="weChatId"/>
-        <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="native_place" jdbcType="VARCHAR" property="nativePlace"/>
         <result column="current_location" jdbcType="VARCHAR" property="currentLocation"/>
         <result column="gender" jdbcType="TINYINT" property="gender"/>
         <result column="birth_date" jdbcType="TIMESTAMP" property="birthDate"/>
         <result column="blood_type" jdbcType="TINYINT" property="bloodType"/>
-        <result column="height" jdbcType="TINYINT" property="height"/>
-        <result column="weight" jdbcType="TINYINT" property="weight"/>
+        <result column="height" jdbcType="INTEGER" property="height"/>
+        <result column="weight" jdbcType="INTEGER" property="weight"/>
         <result column="education" jdbcType="TINYINT" property="education"/>
+        <result column="graduation_school" jdbcType="VARCHAR" property="graduationSchool"/>
         <result column="house" jdbcType="TINYINT" property="house"/>
+        <result column="house_info" jdbcType="VARCHAR" property="houseInfo"/>
+        <result column="income" jdbcType="INTEGER" property="income"/>
         <result column="job_info" jdbcType="VARCHAR" property="jobInfo"/>
         <result column="interest" jdbcType="VARCHAR" property="interest"/>
         <result column="marriage_status" jdbcType="TINYINT" property="marriageStatus"/>
@@ -24,144 +24,161 @@
         <result column="target" jdbcType="VARCHAR" property="target"/>
         <result column="declaration" jdbcType="VARCHAR" property="declaration"/>
         <result column="user_status" jdbcType="TINYINT" property="userStatus"/>
+        <result column="reasons_single" jdbcType="VARCHAR" property="reasonsSingle"/>
+        <result column="source_from" jdbcType="VARCHAR" property="sourceFrom"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
     </resultMap>
     <resultMap id="image" type="com.marriage.model.marriage.UserImage">
         <result column="user_id" jdbcType="VARCHAR" property="userId"/>
         <result column="image_path" jdbcType="VARCHAR" property="imagePath"/>
     </resultMap>
     <sql id="user_Column">
-        <!--@mbg.generated-->
-        user_id, user_name, wechat_id, nick_name, native_place, current_location, gender,
-        date_format(birth_date,'%Y-%m-%d') as birth_date, blood_type, height, weight, education, house, job_info,
-        interest, marriage_status,
-        family, target, declaration, user_status
+        user_id,
+        user_name,
+        wechat_id,
+        native_place,
+        current_location,
+        gender,
+        date_format(birth_date, '%Y-%m-%d') as birth_date,
+        blood_type,
+        height,
+        weight,
+        education,
+        graduation_school,
+        house,
+        house_info,
+        job_info,
+        income,
+        interest,
+        marriage_status,
+        family,
+        target,
+        declaration,
+        user_status,
+        reasons_single,
+        source_from,
+        remark
     </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="User">
-        <!--@mbg.generated-->
         select
         <include refid="user_Column"/>
         from marriage_user
         where user_id = #{userId,jdbcType=INTEGER}
     </select>
     <select id="selectByWeChatId" parameterType="java.lang.String" resultMap="User">
-        <!--@mbg.generated-->
         select
         <include refid="user_Column"/>
         from marriage_user
         where wechat_id = #{weChatId,jdbcType=VARCHAR}
     </select>
-    <select id="selectUserImage"  resultMap="image">
-        select  user_id,image_path from user_image where user_id in
+    <select id="selectUserImage" resultMap="image">
+        select user_id, image_path
+        from user_image where user_id in
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             #{id,jdbcType=INTEGER}
         </foreach>
     </select>
     <select id="selectList" parameterType="com.marriage.model.marriage.MarriageQueryParam" resultMap="User">
-        <!--@mbg.generated-->
         select
         <include refid="user_Column"/>
         from marriage_user
-                where 1 = 1
-        <if test="userId != null">
-            and user_id = #{userId,jdbcType=INTEGER}
-        </if>
-        <if test="userName != null and userName != ''">
-            and user_name like concat('%', concat(#{userName,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="weChatId != null and weChatId != ''">
-            and wechat_id != #{weChatId,jdbcType=VARCHAR}
-        </if>
-        <if test="nickName != null and nickName != ''">
-            and nick_name like concat('%', concat(#{nickName,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="nativePlace != null and nativePlace != ''">
-            and native_place like concat('%', concat(#{nativePlace,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="currentLocation != null and currentLocation != ''">
-            and current_location like concat('%', concat(#{currentLocation,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="gender != null">
-            and gender = #{gender,jdbcType=TINYINT}
-        </if>
-        <if test="birthDateStart != null and birthDateEnd != null">
-            and birth_date between #{birthDateStart,jdbcType=VARCHAR} and #{birthDateEnd,jdbcType=VARCHAR}
-        </if>
-        <if test="bloodType != null">
-            and blood_type = #{bloodType,jdbcType=TINYINT}
-        </if>
-        <if test="heightStart != null and heightEnd != null">
-            and height between #{heightStart,jdbcType=TINYINT} and #{heightEnd,jdbcType=TINYINT}
-        </if>
-        <if test="weightStart != null and weightEnd != null">
-            and weight between #{weightStart,jdbcType=TINYINT} and #{weightEnd,jdbcType=TINYINT}
-        </if>
-        <if test="education != null">
-            and education = #{education,jdbcType=TINYINT}
-        </if>
-        <if test="house != null">
-            and house = #{house,jdbcType=TINYINT}
-        </if>
-        <if test="jobInfo != null and jobInfo != ''">
-            and job_info like concat('%', concat(#{jobInfo,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="interest != null and interest != ''">
-            and interest like concat('%', concat(#{interest,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="marriageStatus != null">
-            and marriage_status = #{marriageStatus,jdbcType=TINYINT}
-        </if>
-        <if test="family != null and family != ''">
-            and family like concat('%', concat(#{family,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="target != null and target != ''">
-            and target like concat('%', concat(#{target,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="declaration != null and declaration != ''">
-            and declaration like concat('%', concat(#{declaration,jdbcType=VARCHAR}, '%'))
-        </if>
-        <if test="userStatus != null">
-            and user_status = #{userStatus,jdbcType=INTEGER}
-        </if>
-        order by user_id
+        <where>
+            <choose>
+                <when test="admin == 1">
+                    1 = 1
+                    <if test="userId != null">
+                        and user_id = #{userId,jdbcType=INTEGER}
+                    </if>
+                    <if test="heightStart != null and heightEnd != null">
+                        and height between #{heightStart,jdbcType=TINYINT} and #{heightEnd,jdbcType=TINYINT}
+                    </if>
+                </when>
+                <otherwise>
+                    user_status in (0,1)
+                        and gender!=#{gender,jdbcType=INTEGER}
+                      and wechat_id != #{weChatId,jdbcType=VARCHAR}
+                    <if test="house != null">
+                        and house = #{house,jdbcType=TINYINT}
+                    </if>
+                </otherwise>
+            </choose>
+            <if test="education != null">
+                and education = #{education,jdbcType=TINYINT}
+            </if>
+            <if test="incomeStart != null and incomeEnd != null">
+                and income between #{incomeStart,jdbcType=INTEGER}
+                and #{incomeEnd,jdbcType=INTEGER}
+            </if>
+            <if test="birthDateStart != null and birthDateEnd != null">
+                and birth_date between #{birthDateStart,jdbcType=VARCHAR}
+                and #{birthDateEnd,jdbcType=VARCHAR}
+            </if>
+        </where>
+        <choose>
+            <when test="admin == 1">
+                order by birth_date
+            </when>
+            <otherwise>
+                order by income desc
+            </otherwise>
+        </choose>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-        <!--@mbg.generated-->
         delete
         from marriage_user
         where user_id = #{userId,jdbcType=INTEGER}
     </delete>
     <insert id="insert" keyColumn="user_id" keyProperty="userId"
-            parameterType="com.marriage.model.marriage.MarriageUser" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into marriage_user (user_name, wechat_id, nick_name,
-                                   native_place, current_location, gender,
-                                   birth_date, blood_type, height,
-                                   weight, education, house,
-                                   job_info, interest, marriage_status,
-                                   family, target,
-                                   declaration, user_status)
-        values (#{userName,jdbcType=VARCHAR}, #{weChatId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR},
-                #{nativePlace,jdbcType=VARCHAR}, #{currentLocation,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT},
-                #{birthDate,jdbcType=TIMESTAMP}, #{bloodType,jdbcType=TINYINT}, #{height,jdbcType=TINYINT},
-                #{weight,jdbcType=TINYINT}, #{education,jdbcType=TINYINT}, #{house,jdbcType=TINYINT},
-                #{jobInfo,jdbcType=VARCHAR}, #{interest,jdbcType=VARCHAR}, #{marriageStatus,jdbcType=TINYINT},
-                #{family,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR},
-                #{declaration,jdbcType=VARCHAR}, 0) ON DUPLICATE KEY UPDATE user_name=#{userName,jdbcType=VARCHAR},
-        nick_name=#{nickName,jdbcType=VARCHAR},native_place=#{nativePlace,jdbcType=VARCHAR},
-        current_location=#{currentLocation,jdbcType=VARCHAR},gender=#{gender,jdbcType=TINYINT},
-        birth_date=#{birthDate,jdbcType=TIMESTAMP},blood_type=#{bloodType,jdbcType=TINYINT},height= #{height,jdbcType=TINYINT},
-        weight=#{weight,jdbcType=TINYINT},education=#{education,jdbcType=TINYINT},house=#{house,jdbcType=TINYINT},
-        job_info=#{jobInfo,jdbcType=VARCHAR},interest=#{interest,jdbcType=VARCHAR},marriage_status=#{marriageStatus,jdbcType=TINYINT},
-        family=#{family,jdbcType=VARCHAR},target=#{target,jdbcType=VARCHAR},declaration=#{declaration,jdbcType=VARCHAR}
+            parameterType="com.marriage.model.marriage.MarriageUserAdd" useGeneratedKeys="true">
+        insert into marriage_user (user_name, wechat_id, native_place, current_location, gender, birth_date,
+                                   blood_type, height, weight, education, graduation_school, house, house_info,
+                                   job_info, income, interest,
+                                   marriage_status, family, target, user_status, declaration, reasons_single,
+                                   source_from, remark, register_date,
+                                   update_date)
+        values (#{userName,jdbcType=VARCHAR}, #{weChatId,jdbcType=VARCHAR}, #{nativePlace,jdbcType=VARCHAR},
+                #{currentLocation,jdbcType=VARCHAR}, #{gender,jdbcType=TINYINT}, #{birthDate,jdbcType=VARCHAR},
+                #{bloodType,jdbcType=TINYINT}, #{height,jdbcType=INTEGER}, #{weight,jdbcType=INTEGER},
+                #{education,jdbcType=TINYINT}, #{graduationSchool,jdbcType=VARCHAR}, #{house,jdbcType=TINYINT},
+                #{houseInfo,jdbcType=VARCHAR}, #{jobInfo,jdbcType=VARCHAR}, #{income,jdbcType=INTEGER},
+                #{interest,jdbcType=VARCHAR},
+                #{marriageStatus,jdbcType=TINYINT}, #{family,jdbcType=VARCHAR}, #{target,jdbcType=VARCHAR},
+                0, #{declaration,jdbcType=VARCHAR}, #{reasonsSingle,jdbcType=VARCHAR}, #{sourceFrom,jdbcType=VARCHAR},
+                #{remark,jdbcType=VARCHAR}, now(), now())
+        ON DUPLICATE KEY UPDATE user_name=#{userName,jdbcType=VARCHAR},
+                                native_place=#{nativePlace,jdbcType=VARCHAR},
+                                current_location=#{currentLocation,jdbcType=VARCHAR},
+                                gender=#{gender,jdbcType=TINYINT},
+                                birth_date=#{birthDate,jdbcType=VARCHAR},
+                                blood_type=#{bloodType,jdbcType=TINYINT},
+                                height= #{height,jdbcType=INTEGER},
+                                weight=#{weight,jdbcType=INTEGER},
+                                education=#{education,jdbcType=TINYINT},
+                                graduation_school=#{graduationSchool,jdbcType=VARCHAR},
+                                house=#{house,jdbcType=TINYINT},
+                                house_info=#{houseInfo,jdbcType=VARCHAR},
+                                job_info=#{jobInfo,jdbcType=VARCHAR},
+                                income=#{income,jdbcType=INTEGER},
+                                interest=#{interest,jdbcType=VARCHAR},
+                                marriage_status=#{marriageStatus,jdbcType=TINYINT},
+                                family=#{family,jdbcType=VARCHAR},
+                                target=#{target,jdbcType=VARCHAR},
+                                declaration=#{declaration,jdbcType=VARCHAR},
+                                reasons_single=#{reasonsSingle,jdbcType=VARCHAR},
+                                source_from=#{sourceFrom,jdbcType=VARCHAR},
+                                remark=#{remark,jdbcType=VARCHAR},
+                                update_date=now()
     </insert>
     <insert id="insertUserImageBatch">
         insert into user_image (user_id, image_path) VALUES
         <foreach collection="imageList" item="image" separator=",">
-            (#{userId,jdbcType=INTEGER},#{image,jdbcType=VARCHAR})
+            (#{userId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR})
         </foreach>
     </insert>
     <delete id="deleteUserImage">
-        delete from user_image where user_id=#{userId,jdbcType=INTEGER}
+        delete
+        from user_image
+        where user_id = #{userId,jdbcType=INTEGER}
     </delete>
     <select id="selectAdmin" resultType="java.lang.Integer">
         select count(1)
@@ -169,41 +186,49 @@
         where manage_wx_id = #{weChatId}
           and is_valid = 0;
     </select>
-
     <select id="selectUserStatus" resultMap="User">
         select
         <include refid="user_Column"/>
         from marriage_user
         where wechat_id = #{weChatId}
     </select>
-    <update id="updateByPrimaryKey" parameterType="com.marriage.model.marriage.MarriageUser">
-        <!--@mbg.generated-->
+    <update id="updateByPrimaryKey" parameterType="com.marriage.model.marriage.MarriageUserEdit">
         update marriage_user
-        set user_name        = #{userName,jdbcType=VARCHAR},
-            wechat_id       = #{weChatId,jdbcType=VARCHAR},
-            nick_name        = #{nickName,jdbcType=VARCHAR},
-            native_place     = #{nativePlace,jdbcType=VARCHAR},
-            current_location = #{currentLocation,jdbcType=VARCHAR},
-            gender           = #{gender,jdbcType=TINYINT},
-            birth_date       = #{birthDate,jdbcType=TIMESTAMP},
-            blood_type       = #{bloodType,jdbcType=TINYINT},
-            height           = #{height,jdbcType=TINYINT},
-            weight           = #{weight,jdbcType=TINYINT},
-            education        = #{education,jdbcType=TINYINT},
-            house            = #{house,jdbcType=TINYINT},
-            job_info         = #{jobInfo,jdbcType=VARCHAR},
-            interest         = #{interest,jdbcType=VARCHAR},
-            marriage_status  = #{marriageStatus,jdbcType=TINYINT},
-            family           = #{family,jdbcType=VARCHAR},
-            target           = #{target,jdbcType=VARCHAR},
-            declaration      = #{declaration,jdbcType=VARCHAR}
+        set user_name=#{userName,jdbcType=VARCHAR},
+            native_place=#{nativePlace,jdbcType=VARCHAR},
+            current_location=#{currentLocation,jdbcType=VARCHAR},
+            gender=#{gender,jdbcType=TINYINT},
+            birth_date=#{birthDate,jdbcType=VARCHAR},
+            blood_type=#{bloodType,jdbcType=TINYINT},
+            height= #{height,jdbcType=INTEGER},
+            weight=#{weight,jdbcType=INTEGER},
+            education=#{education,jdbcType=TINYINT},
+            graduation_school=#{graduationSchool,jdbcType=VARCHAR},
+            house=#{house,jdbcType=TINYINT},
+            house_info=#{houseInfo,jdbcType=VARCHAR},
+            job_info=#{jobInfo,jdbcType=VARCHAR},
+            income=#{income,jdbcType=INTEGER},
+            interest=#{interest,jdbcType=VARCHAR},
+            marriage_status=#{marriageStatus,jdbcType=TINYINT},
+            family=#{family,jdbcType=VARCHAR},
+            target=#{target,jdbcType=VARCHAR},
+            declaration=#{declaration,jdbcType=VARCHAR},
+            reasons_single=#{reasonsSingle,jdbcType=VARCHAR},
+            source_from=#{sourceFrom,jdbcType=VARCHAR},
+            remark=#{remark,jdbcType=VARCHAR},
+            update_date=now()
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
 
     <update id="updateUserStatus">
-        <!--@mbg.generated-->
         update marriage_user
         set user_status = #{userStatus,jdbcType=TINYINT}
         where user_id = #{userId,jdbcType=INTEGER}
     </update>
+
+    <select id="countNewUser" resultType="java.lang.Integer">
+        select count(1)
+        from marriage_user
+        where register_date between DATE_SUB(NOW(), INTERVAL 30 DAY) and now()
+    </select>
 </mapper>

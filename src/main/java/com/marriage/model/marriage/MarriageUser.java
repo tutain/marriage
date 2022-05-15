@@ -19,10 +19,7 @@ public class MarriageUser {
      */
     private String userName;
 
-    /**
-     * 昵称
-     */
-    private String nickName;
+
     /**
      * 微信id
      */
@@ -64,14 +61,20 @@ public class MarriageUser {
     private int weight;
 
     /**
-     * 0大专及以下,1本科,2研究生,3博士,4博士后,5教授以上
+     * 0大专,1本科,2研究生,3博士,4其他
      */
     private int education;
 
+    private String graduationSchool;
+
     /**
-     * 0无房，有购房资格;1有房，在还贷款;2有房无贷;3多套房
+     * 0无房,1有房,2多套房
      */
     private int house;
+
+    private String houseInfo;
+
+    private int income;
 
     /**
      * 工作介绍
@@ -84,7 +87,7 @@ public class MarriageUser {
     private String interest;
 
     /**
-     * 0未婚;1已婚离异
+     * 0未婚;1离异无小孩,2离异有小孩
      */
     private int marriageStatus;
 
@@ -102,6 +105,22 @@ public class MarriageUser {
      * 爱情宣言
      */
     private String declaration;
+
+    /**
+     * 单身原因
+     */
+    private String reasonsSingle;
+
+    /**
+     * 怎么了解我们的
+     */
+    private String sourceFrom;
+
+    /**
+     * 备注
+     */
+    private String remark;
+
     private List<String> imageUrlList;
 
     /**

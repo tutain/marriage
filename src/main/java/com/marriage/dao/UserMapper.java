@@ -105,8 +105,15 @@ public interface UserMapper {
 
     /**
      * 根据wechatId查询用户
+     *
      * @param weChatId
      * @return
      */
     MarriageUser selectByWeChatId(String weChatId);
+
+    /**
+     * 获取30天新增用户数
+     * @return
+     */
+    int countNewUser();
 }

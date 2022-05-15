@@ -20,11 +20,6 @@ public class MarriageUserAdd {
     private String userName;
 
     /**
-     * 昵称
-     */
-    @NotBlank(message = "昵称不能为空")
-    private String nickName;
-    /**
      * 微信id
      */
     @NotBlank(message = "微信id不能为空")
@@ -73,22 +68,31 @@ public class MarriageUserAdd {
     private Integer weight;
 
     /**
-     * 0大专及以下,1本科,2研究生,3博士,4博士后,5教授以上
+     *
      */
     @NotNull(message = "学历不能为空")
     private Integer education;
 
-    /**
-     * 0无房，有购房资格;1有房，在还贷款;2有房无贷;3多套房
-     */
+    @NotBlank(message = "毕业院校不能为空")
+    private String graduationSchool;
+
+
     @NotNull(message = "资产不能为空")
     private Integer house;
+
+    @NotBlank(message = "房车说明不能为空")
+    private String houseInfo;
+
+    @NotNull(message = "收入不能为空")
+    private Integer income;
 
     /**
      * 工作介绍
      */
     @NotBlank(message = "工作不能为空")
     private String jobInfo;
+
+
 
     /**
      * 兴趣和性格介绍
@@ -97,7 +101,7 @@ public class MarriageUserAdd {
     private String interest;
 
     /**
-     * 0未婚;1已婚离异
+     *  0未婚;1离异无小孩,2离异有小孩
      */
     @NotNull(message = "婚姻状况不能为空")
     private Integer marriageStatus;
@@ -121,6 +125,23 @@ public class MarriageUserAdd {
     private String declaration;
     @NotNull(message = "照片不能为空")
     private List<String> imageUrlList;
+
+    /**
+     * 单身原因
+     */
+    @NotBlank(message = "单身原因不能为空")
+    private String reasonsSingle;
+
+    /**
+     * 怎么了解我们的
+     */
+    @NotBlank(message = "怎么了解我们的不能为空")
+    private String sourceFrom;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
 }
 

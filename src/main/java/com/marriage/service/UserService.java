@@ -69,4 +69,10 @@ public interface UserService {
      * @param userStatus
      */
     void updateUserStatus(int id,int userStatus);
+
+    /**
+     * 最新30天新增用户
+     * @return
+     */
+    int countNewUser();
 }

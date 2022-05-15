@@ -149,4 +149,9 @@ public class UserServiceImpl implements UserService {
     public void updateUserStatus(int id, int userStatus) {
         userMapper.updateUserStatus(userStatus,id);
     }
+
+    @Override
+    public int countNewUser() {
+        return userMapper.countNewUser();
+    }
 }
