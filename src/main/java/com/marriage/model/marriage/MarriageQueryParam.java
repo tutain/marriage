@@ -41,8 +41,8 @@ public class MarriageQueryParam {
      */
     private Integer house;
 
-    private int incomeStart;
-    private int incomeEnd;
+    private Integer incomeStart;
+    private Integer incomeEnd;
 
     private int pageNum;
     private int pageSize;
