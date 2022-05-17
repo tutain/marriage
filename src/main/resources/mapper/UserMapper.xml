@@ -119,7 +119,7 @@
                 order by birth_date desc
             </when>
             <otherwise>
-                order by income desc
+                order by income
             </otherwise>
         </choose>
     </select>
