@@ -116,7 +116,7 @@
         </where>
         <choose>
             <when test="admin == 1">
-                order by birth_date
+                order by birth_date desc
             </when>
             <otherwise>
                 order by income desc
