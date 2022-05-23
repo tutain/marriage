@@ -39,12 +39,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String queryWechatUserInfo(String code) {
-
         String url="https://api.weixin.qq.com/sns/jscode2session" +
                 "?appid="+appId+"&secret="+secret+"&js_code="+code+"&grant_type=authorization_code";
         ResponseEntity<String> response =new RestTemplate(new HttpsClientRequestFactory()).getForEntity(url, String.class);
         if(response.getStatusCode().is2xxSuccessful()){
             String user=response.getBody();
+            log.info(user);
             if(user!=null&&!"".equals(user)){
                 Map<String,Object> userMap= new HashMap<>();
                 try {
@@ -52,9 +52,12 @@ public class UserServiceImpl implements UserService {
                     log.info(userMap+"");
                 } catch (JsonProcessingException e) {
                     e.printStackTrace();
+                    log.error(e.getMessage(),e);
                 }
                 return userMap.get("openid")+"";
             }
+        }else {
+            log.info("code2session api error");
         }
         return "";
     }

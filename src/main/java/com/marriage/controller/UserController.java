@@ -26,10 +26,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("queryWechatUserInfo")
+    @ResponseBody
     public ResponseMsg<?> queryWechatUserInfo(String code){
         return getSuccessMsg("查询成功",userService.queryWechatUserInfo(code));
     }
     @GetMapping("checkUser")
+    @ResponseBody
     public ResponseMsg<?> checkUser(String weChatId){
         if(!StringUtils.hasLength(weChatId)){
             return getFailMsg(ResponseStatus.weChatIdError,"用户id为空",null);
@@ -38,10 +40,12 @@ public class UserController {
     }
 
     @GetMapping("queryUser")
+    @ResponseBody
     public ResponseMsg<?> queryUser(MarriageQueryParam param){
         return getSuccessMsg("查询成功",userService.queryMarriages(param));
     }
     @GetMapping("queryDetail")
+    @ResponseBody
     public ResponseMsg<?> queryDetail(Integer id){
         if (id==null) {
             return getFailMsg(ResponseStatus.paramError, "id不能为空", null);
@@ -50,6 +54,7 @@ public class UserController {
     }
 
     @PostMapping("addUser")
+    @ResponseBody
     public ResponseMsg<?> addUser(@Valid MarriageUserAdd marriageUserAdd, BindingResult result){
         if (result.hasErrors()) {
             return getFailMsg(ResponseStatus.paramError, errorBinding(result), null);
@@ -57,6 +62,7 @@ public class UserController {
         return getSuccessMsg("新增成功",userService.addMarriage(marriageUserAdd));
     }
     @PutMapping("editUser")
+    @ResponseBody
     public ResponseMsg<?> editUser(@Valid MarriageUserEdit marriageUserEdit, BindingResult result){
         if (result.hasErrors()) {
             return getFailMsg(ResponseStatus.paramError, errorBinding(result), null);
@@ -64,6 +70,7 @@ public class UserController {
         return getSuccessMsg("修改成功",userService.editMarriage(marriageUserEdit));
     }
     @DeleteMapping("deleteUser")
+    @ResponseBody
     public ResponseMsg<?> editUser(Integer id){
         if (id==null) {
             return getFailMsg(ResponseStatus.paramError, "id不能为空", null);
@@ -73,6 +80,7 @@ public class UserController {
 
 
     @PutMapping("changeUserStatus")
+    @ResponseBody
     public ResponseMsg<?> uploadImage(Integer id,Integer userStatus){
         if (id==null) {
             return getFailMsg(ResponseStatus.paramError, "用户id不能为空", null);
@@ -85,6 +93,7 @@ public class UserController {
     }
 
     @GetMapping("countNewUser")
+    @ResponseBody
     public ResponseMsg<?> countNewUser(){
         return getSuccessMsg("查询成功",userService.countNewUser());
     }

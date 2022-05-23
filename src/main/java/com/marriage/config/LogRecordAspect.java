@@ -2,6 +2,7 @@ package com.marriage.config;
 
 
 import com.marriage.model.ResponseMsg;
+import com.marriage.model.ResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -31,7 +32,7 @@ public class LogRecordAspect {
     /**
      * 定义一个切入点.
      */
-    @Pointcut("execution(* com.marriage.*.controller..*Controller.*(..)) && @annotation(org.springframework.web.bind.annotation.ResponseBody))")
+    @Pointcut("execution(* com.marriage.controller.*Controller.*(..)) && @annotation(org.springframework.web.bind.annotation.ResponseBody))")
     public void webLog() {
     }
 
@@ -64,7 +65,7 @@ public class LogRecordAspect {
     }
 
     private ResponseMsg<?> handlerException(ProceedingJoinPoint pjp, Throwable e) {
-        ResponseMsg<?> result = getFailMsg(null,"系统异常，请联系管理员",null);
+        ResponseMsg<?> result = getFailMsg(ResponseStatus.systemError,"系统异常，请联系管理员",null);
         log.error(pjp.getSignature() + " error ", e);
         return result;
     }
